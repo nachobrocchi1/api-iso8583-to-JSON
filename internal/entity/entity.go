@@ -1,0 +1,142 @@
+package entity
+
+type Iso8583struct struct {
+	Mti  string `json:"mti"`
+	F2   string `json:"2" validate:"omitempty"`
+	F3   string `json:"3" validate:"omitempty"`
+	F4   string `json:"4" validate:"omitempty"`
+	F5   string `json:"5" validate:"omitempty"`
+	F6   string `json:"6" validate:"omitempty"`
+	F7   string `json:"7" validate:"omitempty"`
+	F8   string `json:"8" validate:"omitempty"`
+	F9   string `json:"9" validate:"omitempty"`
+	F10  string `json:"10" validate:"omitempty"`
+	F11  string `json:"11" validate:"omitempty"`
+	F12  string `json:"12" validate:"omitempty"`
+	F13  string `json:"13" validate:"omitempty"`
+	F14  string `json:"14" validate:"omitempty"`
+	F15  string `json:"15" validate:"omitempty"`
+	F16  string `json:"16" validate:"omitempty"`
+	F17  string `json:"17" validate:"omitempty"`
+	F18  string `json:"18" validate:"omitempty"`
+	F19  string `json:"19" validate:"omitempty"`
+	F20  string `json:"20" validate:"omitempty"`
+	F21  string `json:"21" validate:"omitempty"`
+	F22  string `json:"22" validate:"omitempty"`
+	F23  string `json:"23" validate:"omitempty"`
+	F24  string `json:"24" validate:"omitempty"`
+	F25  string `json:"25" validate:"omitempty"`
+	F26  string `json:"26" validate:"omitempty"`
+	F27  string `json:"27" validate:"omitempty"`
+	F28  string `json:"28" validate:"omitempty"`
+	F29  string `json:"29" validate:"omitempty"`
+	F30  string `json:"30" validate:"omitempty"`
+	F31  string `json:"31" validate:"omitempty"`
+	F32  string `json:"32" validate:"omitempty"`
+	F33  string `json:"33" validate:"omitempty"`
+	F34  string `json:"34" validate:"omitempty"`
+	F35  string `json:"35" validate:"omitempty"`
+	F36  string `json:"36" validate:"omitempty"`
+	F37  string `json:"37" validate:"omitempty"`
+	F38  string `json:"38" validate:"omitempty"`
+	F39  string `json:"39" validate:"omitempty"`
+	F40  string `json:"40" validate:"omitempty"`
+	F41  string `json:"41" validate:"omitempty"`
+	F42  string `json:"42" validate:"omitempty"`
+	F43  string `json:"43" validate:"omitempty"`
+	F44  string `json:"44" validate:"omitempty"`
+	F45  string `json:"45" validate:"omitempty"`
+	F46  string `json:"46" validate:"omitempty"`
+	F47  string `json:"47" validate:"omitempty"`
+	F48  string `json:"48" validate:"omitempty"`
+	F49  string `json:"49" validate:"omitempty"`
+	F50  string `json:"50" validate:"omitempty"`
+	F51  string `json:"51" validate:"omitempty"`
+	F52  string `json:"52" validate:"omitempty"`
+	F53  string `json:"53" validate:"omitempty"`
+	F54  string `json:"54" validate:"omitempty"`
+	F55  string `json:"55" validate:"omitempty"`
+	F56  string `json:"56" validate:"omitempty"`
+	F57  string `json:"57" validate:"omitempty"`
+	F58  string `json:"58" validate:"omitempty"`
+	F59  string `json:"59" validate:"omitempty"`
+	F60  string `json:"60" validate:"omitempty"`
+	F61  string `json:"61" validate:"omitempty"`
+	F62  string `json:"62" validate:"omitempty"`
+	F63  string `json:"63" validate:"omitempty"`
+	F64  string `json:"64" validate:"omitempty"`
+	F65  string `json:"65" validate:"omitempty"`
+	F66  string `json:"66" validate:"omitempty"`
+	F67  string `json:"67" validate:"omitempty"`
+	F68  string `json:"68" validate:"omitempty"`
+	F69  string `json:"69" validate:"omitempty"`
+	F70  string `json:"70" validate:"omitempty"`
+	F71  string `json:"71" validate:"omitempty"`
+	F72  string `json:"72" validate:"omitempty"`
+	F73  string `json:"73" validate:"omitempty"`
+	F74  string `json:"74" validate:"omitempty"`
+	F75  string `json:"75" validate:"omitempty"`
+	F76  string `json:"76" validate:"omitempty"`
+	F77  string `json:"77" validate:"omitempty"`
+	F78  string `json:"78" validate:"omitempty"`
+	F79  string `json:"79" validate:"omitempty"`
+	F80  string `json:"80" validate:"omitempty"`
+	F81  string `json:"81" validate:"omitempty"`
+	F82  string `json:"82" validate:"omitempty"`
+	F83  string `json:"83" validate:"omitempty"`
+	F84  string `json:"84" validate:"omitempty"`
+	F85  string `json:"85" validate:"omitempty"`
+	F86  string `json:"86" validate:"omitempty"`
+	F87  string `json:"87" validate:"omitempty"`
+	F88  string `json:"88" validate:"omitempty"`
+	F89  string `json:"89" validate:"omitempty"`
+	F90  string `json:"90" validate:"omitempty"`
+	F91  string `json:"91" validate:"omitempty"`
+	F92  string `json:"92" validate:"omitempty"`
+	F93  string `json:"93" validate:"omitempty"`
+	F94  string `json:"94" validate:"omitempty"`
+	F95  string `json:"95" validate:"omitempty"`
+	F96  string `json:"96" validate:"omitempty"`
+	F97  string `json:"97" validate:"omitempty"`
+	F98  string `json:"98" validate:"omitempty"`
+	F99  string `json:"99" validate:"omitempty"`
+	F100 string `json:"100" validate:"omitempty"`
+	F101 string `json:"101" validate:"omitempty"`
+	F102 string `json:"102" validate:"omitempty"`
+	F103 string `json:"103" validate:"omitempty"`
+	F104 string `json:"104" validate:"omitempty"`
+	F105 string `json:"105" validate:"omitempty"`
+	F106 string `json:"106" validate:"omitempty"`
+	F107 string `json:"107" validate:"omitempty"`
+	F108 string `json:"108" validate:"omitempty"`
+	F109 string `json:"109" validate:"omitempty"`
+	F110 string `json:"110" validate:"omitempty"`
+	F111 string `json:"111" validate:"omitempty"`
+	F112 string `json:"112" validate:"omitempty"`
+	F113 string `json:"113" validate:"omitempty"`
+	F114 string `json:"114" validate:"omitempty"`
+	F115 string `json:"115" validate:"omitempty"`
+	F116 string `json:"116" validate:"omitempty"`
+	F117 string `json:"117" validate:"omitempty"`
+	F118 string `json:"118" validate:"omitempty"`
+	F119 string `json:"119" validate:"omitempty"`
+	F120 string `json:"120" validate:"omitempty"`
+	F121 string `json:"121" validate:"omitempty"`
+	F122 string `json:"122" validate:"omitempty"`
+	F123 string `json:"123" validate:"omitempty"`
+	F124 string `json:"124" validate:"omitempty"`
+	F125 string `json:"125" validate:"omitempty"`
+	F126 string `json:"126" validate:"omitempty"`
+	F127 string `json:"127" validate:"omitempty"`
+	F128 string `json:"128" validate:"omitempty"`
+}
+
+type Iso8583 struct {
+	Mti    string         `json:"mti" validate:"required"`
+	Fields map[int]string `json:"fields"`
+}
+
+type Iso8583Response struct {
+	Mti    string         `json:"mti"`
+	Fields map[int]string `json:"fields"`
+}
