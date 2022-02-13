@@ -27,7 +27,7 @@ func (r *iso8583PositionIsoReader) ReadPosition(input []byte, startPos, fieldLen
 // MTI
 const (
 	MTI_START_POS = 4
-	MTI_LENGHT    = 8
+	MTI_LENGHT    = 4
 )
 
 func (m *iso8583PositionIsoReader) ReadMti(input []byte) ([]byte, error) {
