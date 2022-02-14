@@ -45,11 +45,7 @@ func (u *iso8583Unparser) Unparse(iso entity.Iso8583) ([]byte, error) {
 
 	unparsedIso := unparsedIsoBuilder.String()
 
-	isoLen := len(unparsedIso)
-
-	unparsedWithLen := fmt.Sprintf("%04d%s", isoLen, unparsedIso)
-
-	return []byte(unparsedWithLen), nil
+	return []byte(unparsedIso), nil
 }
 
 func (u *iso8583Unparser) isoFieldsToString(iso entity.Iso8583, bitmap1 []int, bitmap2 []int) (string, error) {

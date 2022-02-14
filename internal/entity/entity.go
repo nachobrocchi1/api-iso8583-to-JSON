@@ -135,8 +135,3 @@ type Iso8583 struct {
 	Mti    string         `json:"mti" validate:"required"`
 	Fields map[int]string `json:"fields"`
 }
-
-type Iso8583Response struct {
-	Mti    string         `json:"mti"`
-	Fields map[int]string `json:"fields"`
-}

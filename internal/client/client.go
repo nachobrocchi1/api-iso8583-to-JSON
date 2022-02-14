@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strconv"
 	"time"
 
 	"github.com/go-kit/kit/endpoint"
@@ -12,7 +13,9 @@ import (
 
 func MakeClient(clientUri string, timeout time.Duration) endpoint.Endpoint {
 	return func(_ context.Context, req interface{}) (interface{}, error) {
-		trama := req.([]byte)
+
+		isoLen := len(req.([]byte))
+		trama := []byte(fmt.Sprintf("%04d%s", isoLen, req.([]byte)))
 
 		conn, err := net.Dial("tcp", clientUri)
 		if err != nil {
@@ -31,7 +34,9 @@ func MakeClient(clientUri string, timeout time.Duration) endpoint.Endpoint {
 			return nil, TCPError(fmt.Sprintf("Reading error: %s", err))
 		}
 
-		return response, nil
+		end, _ := strconv.Atoi(string(response[:4]))
+		end = end + 4
+		return response[4:end], nil
 	}
 }
 

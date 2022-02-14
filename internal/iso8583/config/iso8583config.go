@@ -43,11 +43,17 @@ const (
 	LLLVARBytes = 3
 )
 
+// MTI
+const (
+	MTI_START_POS = 0
+	MTI_LENGHT    = 4
+)
+
 const (
 	BitmapLen            = 16
-	FirstBitMapStartPos  = 8
-	SecondBitMapStartPos = 24
-	IsoDataStartPosition = 40
+	FirstBitMapStartPos  = 4
+	SecondBitMapStartPos = 20
+	IsoDataStartPosition = 36
 )
 
 //FieldConfiguration definicion de configuracion de cada campo
