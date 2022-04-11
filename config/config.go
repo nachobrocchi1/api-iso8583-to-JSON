@@ -12,7 +12,7 @@ type ApiConfig struct {
 
 func GetApiConfig() ApiConfig {
 	return ApiConfig{
-		Port:          ":8080",
+		Port:          "8080",
 		Path:          "/iso2json",
 		LogLevel:      "debug",
 		ClientTimeout: 30,

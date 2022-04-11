@@ -27,7 +27,7 @@ func main() {
 		logger.Log("defaulting to port %s", port)
 	}
 	logger.Log("Api listening at port", port)
-	logger.Log("err", http.ListenAndServe(port, r))
+	logger.Log("err", http.ListenAndServe(":"+port, r))
 }
 
 func loggerConfiguration(config config.ApiConfig) (logger log.Logger) {
