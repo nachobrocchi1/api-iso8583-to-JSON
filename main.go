@@ -21,8 +21,13 @@ func main() {
 	svc := service.NewService(logger, clientEp)
 	ep := endpoint.MakeIso8583toJSONEndpoint(svc)
 	r := transport.NewHttpServer(ep, config.Path, logger)
-	logger.Log("Api listening at port", config.Port)
-	logger.Log("err", http.ListenAndServe(config.Port, r))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = config.Port
+		logger.Log("defaulting to port %s", port)
+	}
+	logger.Log("Api listening at port", port)
+	logger.Log("err", http.ListenAndServe(port, r))
 }
 
 func loggerConfiguration(config config.ApiConfig) (logger log.Logger) {
