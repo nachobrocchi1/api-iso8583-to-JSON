@@ -33,9 +33,11 @@ func MakeClient(clientUri string, timeout time.Duration) endpoint.Endpoint {
 		if _, err := conn.Read(response); err != nil && err != io.EOF {
 			return nil, TCPError(fmt.Sprintf("Reading error: %s", err))
 		}
-
-		end, _ := strconv.Atoi(string(response[:4]))
-		end = end + 4
+		if len(response) < 1 {
+			return nil, TCPError("Empty response from backend")
+		}
+		len, _ := strconv.Atoi(string(response[:4]))
+		end := len + 4
 		return response[4:end], nil
 	}
 }

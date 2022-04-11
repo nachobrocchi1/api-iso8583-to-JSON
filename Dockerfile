@@ -11,5 +11,5 @@ RUN go build -mod=vendor -ldflags '-s -w' -o /api-iso-to-json main.go
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/api-iso-to-json" ]
+CMD [ "/api-iso-to-json" ]
 

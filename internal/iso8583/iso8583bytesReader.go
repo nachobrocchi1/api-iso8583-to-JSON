@@ -40,18 +40,18 @@ func (r *iso8583BytesReader) Read(isobytes []byte, startPos, bitmapIndex int) ([
 
 }
 
-func (r *iso8583BytesReader) ReadLXVAR(isobytes []byte, startPos, sizeBytes int) ([]byte, int, error) {
-	size, err := readLXVARLength(r, isobytes, startPos, sizeBytes)
+func (r *iso8583BytesReader) ReadLXVAR(isobytes []byte, startPos, lenBytes int) ([]byte, int, error) {
+	size, err := readLXVARLength(r, isobytes, startPos, lenBytes)
 
 	if err != nil {
 		return nil, startPos, err
 	}
-	// Se agrega a la posicion starPos sumarle el sizeBytes, para que continue leyendo el proximo dato
+	// Se agrega a la posicion starPos sumarle el lenBytes, para que continue leyendo el proximo dato
 	if size == 0 {
-		return []byte(""), startPos + sizeBytes, err
+		return []byte(""), startPos + lenBytes, err
 	}
 
-	return r.readFieldValue(isobytes, startPos+sizeBytes, size)
+	return r.readFieldValue(isobytes, startPos+lenBytes, size)
 }
 
 func (r *iso8583BytesReader) readFieldValue(isobytes []byte, startPos, size int) ([]byte, int, error) {
@@ -64,9 +64,9 @@ func (r *iso8583BytesReader) readFieldValue(isobytes []byte, startPos, size int)
 	return valbytes, startPos + size, nil
 }
 
-func readLXVARLength(r *iso8583BytesReader, isobytes []byte, startPos, sizeBytes int) (int, error) {
+func readLXVARLength(r *iso8583BytesReader, isobytes []byte, startPos, lenBytes int) (int, error) {
 	size := 0
-	sizeAsBytes, err := r.positionReader.ReadPosition(isobytes, startPos, sizeBytes)
+	sizeAsBytes, err := r.positionReader.ReadPosition(isobytes, startPos, lenBytes)
 
 	if err == nil {
 		size, err = strconv.Atoi(string(sizeAsBytes))

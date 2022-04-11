@@ -2,7 +2,6 @@ package iso8583
 
 import (
 	"fmt"
-	"strconv"
 )
 
 const (
@@ -28,21 +27,10 @@ func NewValidator() Iso8583Validator {
 }
 
 func (v *byteIso8583Validator) ValidateTransaction(input []byte) error {
-
 	inputLen := len(input)
 	if inputLen < 1 {
 		return InvalidIso8583Input
 	}
-
-	isoLen, err := strconv.Atoi(string(input[:4]))
-	if err != nil {
-		return InvalidIso8583Header
-	}
-
-	if len(input[4:]) < isoLen {
-		return InvalidIso8583Input
-	}
-
 	return nil
 }
 

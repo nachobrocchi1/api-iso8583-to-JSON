@@ -51,8 +51,8 @@ func (i *isoBitmap) Encode(inputBitMap []int) ([]byte, error) {
 		return nil, iso8583Error("Invalid bitmap lenght")
 	}
 
-	for i := 0; i < 64; i = i + 4 {
-		bin := fmt.Sprintf("%d%d%d%d", inputBitMap[i], inputBitMap[i+1], inputBitMap[i+2], inputBitMap[i+3])
+	for i := 0; i < 64; i = i + 4 { // 16 hex chars for the bitmap
+		bin := fmt.Sprintf("%d%d%d%d", inputBitMap[i], inputBitMap[i+1], inputBitMap[i+2], inputBitMap[i+3]) // 4 bits for an hex
 		hex := parseBinToHex(bin)
 		bitmapHex = append(bitmapHex, []byte(hex)...)
 	}
@@ -62,5 +62,10 @@ func (i *isoBitmap) Encode(inputBitMap []int) ([]byte, error) {
 
 func parseBinToHex(bin string) string {
 	ui, _ := strconv.ParseUint(bin, 2, 64) // (num,base,bitsize)
-	return fmt.Sprintf("%X", ui)           // %X for hex b16
+	/*
+		The bitSize argument specifies the integer type that the result must fit into.
+		Bit sizes 0, 8, 16, 32, and 64 correspond to int, int8, int16, int32, and int64.
+		https://stackoverflow.com/questions/52172290/binary-string-to-hex
+	*/
+	return fmt.Sprintf("%X", ui) // %X for hex b16
 }
