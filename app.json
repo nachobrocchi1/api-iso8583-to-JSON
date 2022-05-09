@@ -1,0 +1,7 @@
+{
+    "port": "8081",
+    "path": "/iso2json",
+    "loglevel": "debug",
+    "timeout": 5,
+    "backend": "mock"
+}

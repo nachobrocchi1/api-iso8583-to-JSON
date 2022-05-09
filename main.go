@@ -3,28 +3,40 @@ package main
 import (
 	"api-iso8583-to-JSON/config"
 	"api-iso8583-to-JSON/internal/client"
+	"api-iso8583-to-JSON/internal/client/mocks"
 	"api-iso8583-to-JSON/internal/endpoint"
 	"api-iso8583-to-JSON/internal/service"
 	"api-iso8583-to-JSON/internal/transport"
+	"fmt"
 	"net/http"
 	"os"
+	"time"
 
+	kitendpoint "github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 )
 
 func main() {
-	config := config.GetApiConfig()
-	logger := loggerConfiguration(config)
+	cfg := config.GetApiConfig()
+	logger := loggerConfiguration(cfg)
 
-	clientEp := client.MakeClient(config.BackendURI, config.ClientTimeout)
+	var clientEp kitendpoint.Endpoint
+	{
+		if cfg.Backend == "mock" {
+			clientEp = mocks.MakeMockClient()
+			fmt.Println(config.ColorCyan, "USING MOCK CLIENT")
+		} else {
+			clientEp = client.MakeClient(cfg.Backend, time.Duration(cfg.ClientTimeout))
+		}
+	}
+
 	svc := service.NewService(logger, clientEp)
 	ep := endpoint.MakeIso8583toJSONEndpoint(svc)
-	r := transport.NewHttpServer(ep, config.Path, logger)
+	r := transport.NewHttpServer(ep, cfg.Path, logger)
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = config.Port
-		logger.Log("defaulting to port %s", port)
+		port = cfg.Port
 	}
 	logger.Log("Api listening at port", port)
 	logger.Log("err", http.ListenAndServe(":"+port, r))
