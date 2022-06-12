@@ -12,17 +12,17 @@ type Iso8583Unparser interface {
 }
 
 type iso8583Unparser struct {
-	isoFieldStringifier Iso8583FieldToString
-	bitmapGenerator     BitmapGenerator
-	bitmapEndocer       IsoBitmap
+	isoFieldConverter Iso8583FieldConverter
+	bitmapGenerator   BitmapGenerator
+	bitmapEndocer     IsoBitmap
 }
 
 // NewIso8583Unparser crea un nuevo unparser Iso8583
 func NewIso8583Unparser() Iso8583Unparser {
 	return &iso8583Unparser{
-		isoFieldStringifier: NewIso8583FieldStringifier(),
-		bitmapGenerator:     NewBitmapGenerator(),
-		bitmapEndocer:       NewIso8583BitmapEncodeDecode(),
+		isoFieldConverter: NewIso8583FieldConverter(),
+		bitmapGenerator:   NewBitmapGenerator(),
+		bitmapEndocer:     NewIso8583BitmapEncodeDecode(),
 	}
 }
 
@@ -60,7 +60,7 @@ func (u *iso8583Unparser) isoFieldsToString(iso entity.Iso8583, bitmap1 []int, b
 
 		fieldIndex := bitIndex + 1
 		fieldValue := iso.Fields[fieldIndex]
-		stringifiedField, err := u.isoFieldStringifier.ToString(fieldIndex, fieldValue)
+		stringifiedField, err := u.isoFieldConverter.ToISOField(fieldIndex, fieldValue)
 
 		if err != nil {
 			return "", iso8583Error(fmt.Sprintf("Error unparsing field %d , Cause: %s", fieldIndex, err))

@@ -3,9 +3,10 @@ package main
 import (
 	"api-iso8583-to-JSON/config"
 	"api-iso8583-to-JSON/internal/client"
-	"api-iso8583-to-JSON/internal/client/mocks"
+	mocksclient "api-iso8583-to-JSON/internal/client/mocks"
 	"api-iso8583-to-JSON/internal/endpoint"
 	"api-iso8583-to-JSON/internal/service"
+	mocksservice "api-iso8583-to-JSON/internal/service/mocks"
 	"api-iso8583-to-JSON/internal/transport"
 	"fmt"
 	"net/http"
@@ -22,30 +23,36 @@ func main() {
 	logger := loggerConfiguration(cfg)
 
 	var clientEp kitendpoint.Endpoint
+	var svc service.Service
 	{
 		if cfg.Backend == "mock" {
-			clientEp = mocks.MakeMockClient()
-			fmt.Println(config.ColorCyan, "USING MOCK CLIENT")
+			clientEp = mocksclient.MakeMockClient()
+			svc = mocksservice.NewMockService(logger, clientEp)
+			fmt.Println(config.ColorYellow, "USING MOCK CLIENT")
 		} else {
 			clientEp = client.MakeClient(cfg.Backend, time.Duration(cfg.ClientTimeout))
+			svc = service.NewService(logger, clientEp)
+
 		}
 	}
 
-	svc := service.NewService(logger, clientEp)
 	ep := endpoint.MakeIso8583toJSONEndpoint(svc)
+	if cfg.Backend == "mock" {
+		ep = endpoint.LoggingMockClientEndpointMiddleware(logger)(ep)
+	}
+
 	r := transport.NewHttpServer(ep, cfg.Path, logger)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = cfg.Port
 	}
-	logger.Log("Api listening at port", port)
-	logger.Log("err", http.ListenAndServe(":"+port, r))
+	level.Info(logger).Log("Api listening at port", port)
+	level.Info(logger).Log("err", http.ListenAndServe(":"+port, r))
 }
 
 func loggerConfiguration(config config.ApiConfig) (logger log.Logger) {
 	logger = log.NewJSONLogger(os.Stderr)
 	//logger = log.With(logger, "ts", log.DefaultTimestampUTC)
-	//logger = log.With(logger, "listen", config.Port, "caller", log.DefaultCaller)
 	switch config.LogLevel {
 	case "debug":
 		logger = level.NewFilter(logger, level.AllowDebug())

@@ -7,25 +7,25 @@ import (
 
 const ()
 
-// Iso8583FieldToString interface to converts an iso field into string
-type Iso8583FieldToString interface {
-	ToString(fieldIndex int, fieldValue string) (string, error)
+// Iso8583FieldConverter interface to converts an iso field into string
+type Iso8583FieldConverter interface {
+	ToISOField(fieldIndex int, fieldValue string) (string, error)
 }
 
-type iso8583FieldToString struct {
+type iso8583FieldConverter struct {
 	fieldsConfig   map[int]iso8583config.FieldConfiguration
 	fieldValidator Iso8583FieldValidator
 }
 
-// NewIso8583FieldStringifier crea un nuevo Iso Field Stringifier
-func NewIso8583FieldStringifier() Iso8583FieldToString {
-	return &iso8583FieldToString{
+// NewIso8583FieldConverter constructor Iso Field Converter
+func NewIso8583FieldConverter() Iso8583FieldConverter {
+	return &iso8583FieldConverter{
 		fieldsConfig:   iso8583config.GetIsoFieldsConfig(),
 		fieldValidator: NewIso8583FieldValidator(),
 	}
 }
 
-func (s *iso8583FieldToString) ToString(fieldIndex int, fieldValue string) (string, error) {
+func (s *iso8583FieldConverter) ToISOField(fieldIndex int, fieldValue string) (string, error) {
 	conf := s.fieldsConfig[fieldIndex]
 	stringifiedValue := preProcessFixedValue(conf, fieldValue)
 

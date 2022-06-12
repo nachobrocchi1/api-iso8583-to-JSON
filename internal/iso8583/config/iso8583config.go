@@ -78,7 +78,7 @@ func GetIsoFieldsConfig() map[int]FieldConfiguration {
 }
 
 func initFieldConfig() {
-	fieldConfiguration[2] = FieldConfiguration{"Primary account number (PAN)", AN, LLVAR, 19}
+	fieldConfiguration[2] = FieldConfiguration{"Primary account number (PAN)", N, LLVAR, 19}
 	fieldConfiguration[3] = FieldConfiguration{"Processing code", N, FIXED, 6}
 	fieldConfiguration[4] = FieldConfiguration{"Amount, transaction", N, FIXED, 12}
 	fieldConfiguration[5] = FieldConfiguration{"Amount, Settlement", N, FIXED, 12}

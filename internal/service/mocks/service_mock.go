@@ -1,8 +1,9 @@
-package service
+package mocks
 
 import (
 	"api-iso8583-to-JSON/internal/entity"
 	"api-iso8583-to-JSON/internal/iso8583"
+	"api-iso8583-to-JSON/internal/service"
 	"context"
 
 	"github.com/go-kit/log/level"
@@ -12,19 +13,15 @@ import (
 	"github.com/go-kit/log"
 )
 
-type Service interface {
-	Call(ctx context.Context, req entity.Iso8583) (*entity.Iso8583, error)
-}
-
-type service struct {
+type mockservice struct {
 	logger   log.Logger
 	unparser iso8583.Iso8583Unparser
 	parser   iso8583.Iso8583Parser
 	client   endpoint.Endpoint
 }
 
-func NewService(l log.Logger, clientEp endpoint.Endpoint) Service {
-	return &service{
+func NewMockService(l log.Logger, clientEp endpoint.Endpoint) service.Service {
+	return &mockservice{
 		logger:   l,
 		unparser: iso8583.NewIso8583Unparser(),
 		parser:   iso8583.NewIso8583Parser(),
@@ -32,13 +29,15 @@ func NewService(l log.Logger, clientEp endpoint.Endpoint) Service {
 	}
 }
 
-func (s *service) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso8583, error) {
+func (s *mockservice) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso8583, error) {
+	level.Debug(s.logger).Log("BEGIN OF SERVICE CALL", "-------------------------------------------------------------------------")
 	level.Debug(s.logger).Log("Request", req)
-	var res *entity.Iso8583
+	response := new(entity.Iso8583)
 	requestBytes, errUnparse := s.unparser.Unparse(req)
 	if errUnparse != nil {
 		level.Error(s.logger).Log("Unparsing request ERROR: ", errUnparse)
 	}
+	response.Request = string(requestBytes)
 	level.Debug(s.logger).Log("Unparsed request:", string(requestBytes))
 
 	responseBytes, clientError := s.client(ctx, requestBytes)
@@ -46,13 +45,16 @@ func (s *service) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso8583
 		level.Error(s.logger).Log("Client ERROR: ", clientError)
 		return nil, clientError
 	}
+	response.Response = string(responseBytes.([]byte))
 	level.Debug(s.logger).Log("Client Response: ", string(responseBytes.([]byte)))
 
 	res, errParse := s.parser.Parse(responseBytes.([]byte))
 	if errParse != nil {
 		level.Error(s.logger).Log("Parsing Response ERROR: ", errParse)
 	}
+	response.Mti = res.Mti
+	response.Fields = res.Fields
 	level.Debug(s.logger).Log("Parsed response :", res)
 	level.Debug(s.logger).Log("END OF SERVICE CALL", "-------------------------------------------------------------------------")
-	return res, nil
+	return response, nil
 }

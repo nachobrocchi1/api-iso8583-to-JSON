@@ -24,7 +24,7 @@ var (
 	alphanumericWithSpecialCharacters = regexp.MustCompile(`[\w\W]+`)
 )
 
-// Iso8583FieldValidator interfaz para validacion de campos ISO8383
+// Iso8583FieldValidator ISO8583 field validation interface
 type Iso8583FieldValidator interface {
 	Validate(fieldIndex int, value string) error
 }
@@ -33,7 +33,7 @@ type iso8583FieldValidator struct {
 	fieldsConfig map[int]iso8583config.FieldConfiguration
 }
 
-// NewIso8583FieldValidator constructor para validador de campos ISO8583
+// NewIso8583FieldValidator constructor
 func NewIso8583FieldValidator() Iso8583FieldValidator {
 	return &iso8583FieldValidator{fieldsConfig: iso8583config.GetIsoFieldsConfig()}
 }
@@ -94,7 +94,7 @@ func validateRegex(conf iso8583config.FieldConfiguration, value []byte) error {
 	case iso8583config.ANS:
 		regex = alphanumericWithSpecialCharacters
 	case iso8583config.Z:
-		return nil // investigar ISO 4909 y en ISO 7813
+		return nil // search ISO 4909 and ISO 7813
 	}
 
 	if !regex.Match(value) {

@@ -48,10 +48,12 @@ func makeDecodeRequest(log log.Logger) httptransport.DecodeRequestFunc {
 
 func makeEncodeResponse(log log.Logger) httptransport.EncodeResponseFunc {
 	return func(c context.Context, w http.ResponseWriter, res interface{}) error {
-		if err := json.NewEncoder(w).Encode(res.(*entity.Iso8583)); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(res); err != nil {
 			level.Debug(log).Log("ERROR Encoding response", err)
 			return err
 		}
+
 		return nil
 	}
 }
