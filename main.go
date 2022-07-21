@@ -16,6 +16,7 @@ import (
 	kitendpoint "github.com/go-kit/kit/endpoint"
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -46,8 +47,15 @@ func main() {
 	if port == "" {
 		port = cfg.Port
 	}
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(r)
+
 	level.Info(logger).Log("Api listening at port", port)
-	level.Info(logger).Log("err", http.ListenAndServe(":"+port, r))
+	level.Info(logger).Log("err", http.ListenAndServe(":"+port, handler))
 }
 
 func loggerConfiguration(config config.ApiConfig) (logger log.Logger) {

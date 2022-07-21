@@ -26,6 +26,9 @@ github.com/gorilla/mux
 github.com/leodido/go-urn
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
+# github.com/rs/cors v1.8.2
+## explicit
+github.com/rs/cors
 # github.com/stretchr/testify v1.7.0
 ## explicit
 github.com/stretchr/testify/assert
