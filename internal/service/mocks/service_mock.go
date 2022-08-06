@@ -36,6 +36,7 @@ func (s *mockservice) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso
 	requestBytes, errUnparse := s.unparser.Unparse(req)
 	if errUnparse != nil {
 		level.Error(s.logger).Log("Unparsing request ERROR: ", errUnparse)
+		return nil, errUnparse
 	}
 	response.Request = string(requestBytes)
 	level.Debug(s.logger).Log("Unparsed request:", string(requestBytes))
@@ -51,6 +52,7 @@ func (s *mockservice) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso
 	res, errParse := s.parser.Parse(responseBytes.([]byte))
 	if errParse != nil {
 		level.Error(s.logger).Log("Parsing Response ERROR: ", errParse)
+		return nil, errParse
 	}
 	response.Mti = res.Mti
 	response.Fields = res.Fields

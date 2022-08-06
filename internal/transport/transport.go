@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"gopkg.in/go-playground/validator.v9"
+	"github.com/go-playground/validator/v10"
 
 	"github.com/go-kit/kit/endpoint"
 
@@ -19,6 +19,7 @@ import (
 func NewHttpServer(ep endpoint.Endpoint, path string, logger log.Logger) *mux.Router {
 	options := []httptransport.ServerOption{
 		httptransport.ServerErrorLogger(logger),
+		httptransport.ServerErrorEncoder(encodeError),
 	}
 	handler := httptransport.NewServer(
 		ep,
@@ -56,4 +57,24 @@ func makeEncodeResponse(log log.Logger) httptransport.EncodeResponseFunc {
 
 		return nil
 	}
+}
+
+func encodeError(_ context.Context, err error, w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(codeFrom(err))
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"error": err.Error(),
+	})
+}
+
+func codeFrom(err error) int {
+	// switch err {
+	// case ErrNotFound:
+	// 	return http.StatusNotFound
+	// case ErrAlreadyExists, ErrInconsistentIDs:
+	// 	return http.StatusBadRequest
+	// default:
+	// 	return http.StatusInternalServerError
+	// }
+	return http.StatusInternalServerError
 }

@@ -17,7 +17,9 @@ func LoggingMockClientEndpointMiddleware(logger log.Logger) Middleware {
 			var response mockResponse
 
 			res, err := next(ctx, request)
-
+			if err != nil {
+				return nil, err
+			}
 			r := res.(*entity.Iso8583)
 			response.Mti = r.Mti
 			response.Fields = r.Fields
