@@ -30,5 +30,9 @@ func (r *iso8583PositionIsoReader) ReadPosition(input []byte, startPos, fieldLen
 
 func (m *iso8583PositionIsoReader) ReadMti(input []byte) ([]byte, error) {
 	reader := NewPositionIsoReader()
-	return reader.ReadPosition(input, iso8583config.MTI_START_POS, iso8583config.MTI_LENGHT)
+	mti, err := reader.ReadPosition(input, iso8583config.MTI_START_POS, iso8583config.MTI_LENGHT)
+	if err != nil {
+		return nil, iso8583Error("Error reading MTI")
+	}
+	return mti, nil
 }

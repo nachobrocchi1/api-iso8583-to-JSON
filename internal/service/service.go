@@ -33,11 +33,13 @@ func NewService(l log.Logger, clientEp endpoint.Endpoint) Service {
 }
 
 func (s *service) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso8583, error) {
+	level.Debug(s.logger).Log("BEGIN OF SERVICE CALL", "-------------------------------------------------------------------------")
 	level.Debug(s.logger).Log("Request", req)
 	var res *entity.Iso8583
 	requestBytes, errUnparse := s.unparser.Unparse(req)
 	if errUnparse != nil {
 		level.Error(s.logger).Log("Unparsing request ERROR: ", errUnparse)
+		return nil, errUnparse
 	}
 	level.Debug(s.logger).Log("Unparsed request:", string(requestBytes))
 
@@ -51,6 +53,7 @@ func (s *service) Call(ctx context.Context, req entity.Iso8583) (*entity.Iso8583
 	res, errParse := s.parser.Parse(responseBytes.([]byte))
 	if errParse != nil {
 		level.Error(s.logger).Log("Parsing Response ERROR: ", errParse)
+		return nil, errParse
 	}
 	level.Debug(s.logger).Log("Parsed response :", res)
 	level.Debug(s.logger).Log("END OF SERVICE CALL", "-------------------------------------------------------------------------")

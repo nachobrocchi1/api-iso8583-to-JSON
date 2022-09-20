@@ -63,7 +63,7 @@ func (u *iso8583Unparser) isoFieldsToString(iso entity.Iso8583, bitmap1 []int, b
 		stringifiedField, err := u.isoFieldConverter.ToISOField(fieldIndex, fieldValue)
 
 		if err != nil {
-			return "", iso8583Error(fmt.Sprintf("Error unparsing field %d , Cause: %s", fieldIndex, err))
+			return "", iso8583Error(fmt.Sprintf("Error unparsing field %d , Cause: %s", fieldIndex, err.Error()))
 		}
 
 		fields.WriteString(stringifiedField)

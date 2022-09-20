@@ -13,3 +13,10 @@ func MakeMockClient() endpoint.Endpoint {
 		return reqBytes, nil
 	}
 }
+
+func MakeMockInvalidResponseClient() endpoint.Endpoint {
+	return func(_ context.Context, req interface{}) (interface{}, error) {
+		resBytes := []byte("1234")
+		return resBytes, nil
+	}
+}

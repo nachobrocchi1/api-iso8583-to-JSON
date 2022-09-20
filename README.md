@@ -45,3 +45,5 @@ The configuration is in file [app.json](app.json).
 ## Deploy
 docker run --name=iso2json -p 8080:8080 iso8583tojson
 
+## Tests
+go test ./... -cover

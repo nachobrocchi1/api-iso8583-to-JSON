@@ -27,41 +27,31 @@ func NewIso8583FieldConverter() Iso8583FieldConverter {
 
 func (s *iso8583FieldConverter) ToISOField(fieldIndex int, fieldValue string) (string, error) {
 	conf := s.fieldsConfig[fieldIndex]
-	stringifiedValue := preProcessFixedValue(conf, fieldValue)
+	var stringifiedValue string
+	if iso8583config.FIXED == conf.LengthType {
+		stringifiedValue = preProcessFixedValue(conf, fieldValue)
+	} else {
+		stringifiedValue = processNonFixedValue(conf, fieldValue)
+	}
 
 	if err := s.fieldValidator.Validate(fieldIndex, stringifiedValue); err != nil {
 		return "", err
 	}
 
-	stringifiedValue = processNonFixedValue(conf, stringifiedValue)
-
 	return stringifiedValue, nil
 }
 
 func preProcessFixedValue(conf iso8583config.FieldConfiguration, fieldValue string) string {
-	if iso8583config.FIXED != conf.LengthType {
-		return fieldValue
-	}
-
 	if iso8583config.N == conf.FieldType {
 		return fmt.Sprintf("%0*s", conf.Length, fieldValue)
 	}
-
 	return fmt.Sprintf("%*s", conf.Length, fieldValue)
 }
 
 func processNonFixedValue(conf iso8583config.FieldConfiguration, fieldValue string) string {
-
-	if iso8583config.FIXED == conf.LengthType {
-		return fieldValue
-	}
-
 	lenbytes := getLenbytesByFieldLengthType(conf)
-
 	fieldLen := len(fieldValue)
-
 	fieldPrefix := fmt.Sprintf("%0*d", lenbytes, fieldLen)
-
 	return fmt.Sprintf("%v%v", fieldPrefix, fieldValue)
 }
 

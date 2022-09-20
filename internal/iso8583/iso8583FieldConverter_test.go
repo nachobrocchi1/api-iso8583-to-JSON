@@ -40,4 +40,10 @@ func TestIsoFieldConverter(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, "840", fieldValue)
 	})
+
+	t.Run("Convert Field 34", func(t *testing.T) {
+		fieldValue, err := fieldConverter.ToISOField(34, "01234567890123456789")
+		assert.Nil(t, err)
+		assert.Equal(t, "02001234567890123456789", fieldValue)
+	})
 }

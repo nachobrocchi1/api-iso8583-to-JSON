@@ -3,7 +3,6 @@ package iso8583
 import (
 	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
 	"fmt"
-	"log"
 	"regexp"
 )
 
@@ -15,7 +14,7 @@ const (
 type iso8583FieldValidatorError string
 
 func (e iso8583FieldValidatorError) Error() string {
-	return fmt.Sprintf("Field validation Error [%s]", string(e))
+	return fmt.Sprintf("ISO 8583 Field validation Error : %s", string(e))
 }
 
 var (
@@ -39,13 +38,6 @@ func NewIso8583FieldValidator() Iso8583FieldValidator {
 }
 
 func (v *iso8583FieldValidator) Validate(fieldIndex int, value string) (err error) {
-
-	defer func() {
-		if err != nil {
-			log.Printf("Error reading field: %d value: %q", fieldIndex, value)
-		}
-	}()
-
 	conf := v.fieldsConfig[fieldIndex]
 
 	if len(conf.Name) < 1 {
@@ -79,7 +71,6 @@ func validateLength(conf iso8583config.FieldConfiguration, value string) error {
 			return InvalidFieldLength
 		}
 	}
-
 	return nil
 }
 

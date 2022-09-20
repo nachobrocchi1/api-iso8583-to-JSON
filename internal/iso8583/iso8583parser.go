@@ -83,13 +83,13 @@ func (p *iso8583Parser) readBitMaps(isoBytes []byte) ([]int, int, error) {
 
 	bitmap1, err := p.readBitMap(isoBytes, iso8583config.FirstBitMapStartPos)
 	if err != nil {
-		return nil, iso8583config.FirstBitMapStartPos, err
+		return nil, iso8583config.FirstBitMapStartPos, iso8583Error("Error reading first bitmap")
 	}
 
 	if bitmap1[0] == 1 {
 		bitmap2, err := p.readBitMap(isoBytes, iso8583config.SecondBitMapStartPos)
 		if err != nil {
-			return nil, iso8583config.SecondBitMapStartPos, err
+			return nil, iso8583config.SecondBitMapStartPos, iso8583Error("Error reading second bitmap")
 		}
 
 		return append(bitmap1, bitmap2...), iso8583config.IsoDataStartPosition, nil

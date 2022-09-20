@@ -37,6 +37,6 @@ func TestBitmapGenerator(t *testing.T) {
 		}
 		_, _, err := bitmapGenerator.Generate(isoMessage)
 		assert.Error(t, err)
-		assert.Equal(t, "ISO 8583 Error : Invalid ISO field", err.Error())
+		assert.Equal(t, "ISO 8583 Error : Invalid ISO field 999", err.Error())
 	})
 }

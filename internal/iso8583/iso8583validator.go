@@ -5,13 +5,14 @@ import (
 )
 
 const (
-	InvalidIsoFieldIndex = iso8583ValidatorError("Invalid Iso8583 Field Index")
+	InvalidIsoFieldIndex      = iso8583ValidatorError("Invalid Iso8583 Field Index")
+	InvalidIsoFieldOutOfRange = iso8583ValidatorError("Invalid Iso8583 Field Out Of Range")
 )
 
 type iso8583ValidatorError string
 
 func (e iso8583ValidatorError) Error() string {
-	return fmt.Sprintf("Validation Error [%s]", string(e))
+	return fmt.Sprintf("ISO 8583 Validation Error : %s", string(e))
 }
 
 type Iso8583Validator interface {
@@ -47,7 +48,7 @@ func (v *byteIso8583Validator) ValidatePosition(input []byte, startPos, fieldLen
 	endpos := startPos + fieldLenght
 
 	if endpos > inputLen || startPos > endpos {
-		return InvalidIsoFieldIndex
+		return InvalidIsoFieldOutOfRange
 	}
 
 	return nil

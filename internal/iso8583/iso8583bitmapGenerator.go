@@ -3,6 +3,7 @@ package iso8583
 import (
 	"api-iso8583-to-JSON/internal/entity"
 	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
+	"fmt"
 )
 
 const (
@@ -35,7 +36,7 @@ func (b *bitmapGenerator) Generate(iso entity.Iso8583) ([]int, []int, error) {
 		fieldConf := b.fieldConfig[fieldIndex]
 
 		if len(fieldConf.Name) < 1 {
-			return nil, nil, iso8583Error("Invalid ISO field")
+			return nil, nil, iso8583Error(fmt.Sprintf("Invalid ISO field %d", fieldIndex))
 		}
 
 		if bitmap[0] == 0 && fieldIndex > BitmapBits {
