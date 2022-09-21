@@ -7,11 +7,13 @@ import (
 
 	iso8583_mocks "api-iso8583-to-JSON/internal/iso8583/mocks"
 
+	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
+
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	unparser = iso8583.NewIso8583Unparser()
+	unparser = iso8583.NewIso8583Unparser(iso8583config.GetIsoFieldsConfig())
 )
 
 func TestIso8583Unparser(t *testing.T) {

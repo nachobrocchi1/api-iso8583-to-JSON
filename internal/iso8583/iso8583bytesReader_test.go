@@ -2,6 +2,7 @@ package iso8583_test
 
 import (
 	"api-iso8583-to-JSON/internal/iso8583"
+	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,7 +10,7 @@ import (
 
 var (
 	bytes       = []byte("01007224448028C080001643211234432112340000000000000123000304054133001205020553990220010231231233220630500001429110001        1001001840")
-	bytesReader = iso8583.NewIso8583BytesReader()
+	bytesReader = iso8583.NewIso8583BytesReader(iso8583config.GetIsoFieldsConfig())
 )
 
 func TestByteReader(t *testing.T) {

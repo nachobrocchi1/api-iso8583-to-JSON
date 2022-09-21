@@ -10,6 +10,8 @@ import (
 
 	"github.com/go-kit/kit/endpoint"
 
+	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
+
 	"github.com/go-kit/log"
 )
 
@@ -20,11 +22,11 @@ type mockservice struct {
 	client   endpoint.Endpoint
 }
 
-func NewMockService(l log.Logger, clientEp endpoint.Endpoint) service.Service {
+func NewMockService(l log.Logger, clientEp endpoint.Endpoint, config map[int]iso8583config.FieldConfiguration) service.Service {
 	return &mockservice{
 		logger:   l,
-		unparser: iso8583.NewIso8583Unparser(),
-		parser:   iso8583.NewIso8583Parser(),
+		unparser: iso8583.NewIso8583Unparser(config),
+		parser:   iso8583.NewIso8583Parser(config),
 		client:   clientEp,
 	}
 }

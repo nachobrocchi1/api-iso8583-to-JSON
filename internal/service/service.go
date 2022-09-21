@@ -3,6 +3,7 @@ package service
 import (
 	"api-iso8583-to-JSON/internal/entity"
 	"api-iso8583-to-JSON/internal/iso8583"
+	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
 	"context"
 
 	"github.com/go-kit/log/level"
@@ -23,11 +24,11 @@ type service struct {
 	client   endpoint.Endpoint
 }
 
-func NewService(l log.Logger, clientEp endpoint.Endpoint) Service {
+func NewService(l log.Logger, clientEp endpoint.Endpoint, config map[int]iso8583config.FieldConfiguration) Service {
 	return &service{
 		logger:   l,
-		unparser: iso8583.NewIso8583Unparser(),
-		parser:   iso8583.NewIso8583Parser(),
+		unparser: iso8583.NewIso8583Unparser(config),
+		parser:   iso8583.NewIso8583Parser(config),
 		client:   clientEp,
 	}
 }

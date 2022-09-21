@@ -2,6 +2,7 @@ package iso8583
 
 import (
 	"api-iso8583-to-JSON/internal/entity"
+	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
 	"fmt"
 	"strings"
 )
@@ -18,9 +19,9 @@ type iso8583Unparser struct {
 }
 
 // NewIso8583Unparser crea un nuevo unparser Iso8583
-func NewIso8583Unparser() Iso8583Unparser {
+func NewIso8583Unparser(config map[int]iso8583config.FieldConfiguration) Iso8583Unparser {
 	return &iso8583Unparser{
-		isoFieldConverter: NewIso8583FieldConverter(),
+		isoFieldConverter: NewIso8583FieldConverter(config),
 		bitmapGenerator:   NewBitmapGenerator(),
 		bitmapEndocer:     NewIso8583BitmapEncodeDecode(),
 	}

@@ -18,10 +18,10 @@ type iso8583FieldConverter struct {
 }
 
 // NewIso8583FieldConverter constructor Iso Field Converter
-func NewIso8583FieldConverter() Iso8583FieldConverter {
+func NewIso8583FieldConverter(config map[int]iso8583config.FieldConfiguration) Iso8583FieldConverter {
 	return &iso8583FieldConverter{
-		fieldsConfig:   iso8583config.GetIsoFieldsConfig(),
-		fieldValidator: NewIso8583FieldValidator(),
+		fieldsConfig:   config,
+		fieldValidator: NewIso8583FieldValidator(config),
 	}
 }
 

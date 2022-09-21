@@ -33,8 +33,8 @@ type iso8583FieldValidator struct {
 }
 
 // NewIso8583FieldValidator constructor
-func NewIso8583FieldValidator() Iso8583FieldValidator {
-	return &iso8583FieldValidator{fieldsConfig: iso8583config.GetIsoFieldsConfig()}
+func NewIso8583FieldValidator(config map[int]iso8583config.FieldConfiguration) Iso8583FieldValidator {
+	return &iso8583FieldValidator{fieldsConfig: config}
 }
 
 func (v *iso8583FieldValidator) Validate(fieldIndex int, value string) (err error) {

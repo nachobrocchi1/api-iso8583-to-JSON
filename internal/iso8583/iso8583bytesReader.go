@@ -16,10 +16,10 @@ type iso8583BytesReader struct {
 }
 
 // NewIso8583BytesReader Iso Bytes Reader
-func NewIso8583BytesReader() Iso8583BytesReader {
+func NewIso8583BytesReader(config map[int]iso8583config.FieldConfiguration) Iso8583BytesReader {
 
 	return &iso8583BytesReader{
-		fieldsConfig:   iso8583config.GetIsoFieldsConfig(),
+		fieldsConfig:   config,
 		positionReader: NewPositionIsoReader(),
 	}
 }
@@ -29,13 +29,11 @@ func (r *iso8583BytesReader) Read(isobytes []byte, startPos, bitmapIndex int) ([
 	if err != nil {
 		return isobytes, 0, err
 	}
-	switch lenType := fieldConfig.LengthType; lenType {
-	case iso8583config.LVAR, iso8583config.LLVAR, iso8583config.LLLVAR:
-		return r.readLXVARValue(isobytes, startPos, int(lenType))
-	case iso8583config.FIXED:
+	lenType := fieldConfig.LengthType
+	if lenType == iso8583config.FIXED {
 		return r.readFieldValue(isobytes, startPos, fieldConfig.Length)
-	default:
-		return nil, startPos, iso8583Error("Invalid field lenght type")
+	} else { // iso8583config.LVAR, iso8583config.LLVAR, iso8583config.LLLVAR
+		return r.readLXVARValue(isobytes, startPos, int(lenType))
 	}
 }
 

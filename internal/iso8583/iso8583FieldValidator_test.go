@@ -2,13 +2,14 @@ package iso8583_test
 
 import (
 	"api-iso8583-to-JSON/internal/iso8583"
+	iso8583config "api-iso8583-to-JSON/internal/iso8583/config"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	fieldValidator = iso8583.NewIso8583FieldValidator()
+	fieldValidator = iso8583.NewIso8583FieldValidator(iso8583config.GetIsoFieldsConfig())
 )
 
 func TestIsoFieldValidator(t *testing.T) {

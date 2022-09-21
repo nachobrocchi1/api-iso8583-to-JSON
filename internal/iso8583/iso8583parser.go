@@ -23,13 +23,13 @@ type iso8583Parser struct {
 	fieldCofiguration map[int]iso8583config.FieldConfiguration
 }
 
-func NewIso8583Parser() Iso8583Parser {
+func NewIso8583Parser(config map[int]iso8583config.FieldConfiguration) Iso8583Parser {
 	return &iso8583Parser{
 		validator:         NewValidator(),
 		positionReader:    NewPositionIsoReader(),
 		bitmapDecoder:     NewIso8583BitmapEncodeDecode(),
-		fieldCofiguration: iso8583config.GetIsoFieldsConfig(),
-		bytesReader:       NewIso8583BytesReader(),
+		fieldCofiguration: config,
+		bytesReader:       NewIso8583BytesReader(config),
 	}
 }
 
